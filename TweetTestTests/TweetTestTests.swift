@@ -17,6 +17,7 @@ class TweetTestTests: XCTestCase {
     var originalWords = [String]()
     var list = [String]()
     
+    var countTest = 0
     override func setUp() {
         super.setUp()
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -28,6 +29,11 @@ class TweetTestTests: XCTestCase {
     }
     
     func testExample() {
+        string.removeAll()
+        for _ in 0..<70 {
+            string.append("Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to ")
+        }
+        
         if string.count > kNumber && !string.containsWhitespace {
             //Ignore case
             return
@@ -72,15 +78,12 @@ class TweetTestTests: XCTestCase {
         
         if !collectedWords.isEmpty {
             let string = collectedWords.map { String($0) }.joined(separator: " ")
-            print(string.count)
             list.append(string)
             if words.count > 0 {
                 executeSubTweet(withPage: withPage + 1, asumeTotal: asumeTotal)
             } else {
                 let totalCount = list.count
                 list = list.map({$0.replacingOccurrences(of: "/\(asumeTotal)", with: "/\(totalCount)")})
-                print(list)
-                print("Done")
             }
         }
     }
@@ -89,6 +92,7 @@ class TweetTestTests: XCTestCase {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
+            self.testExample()
         }
     }
     

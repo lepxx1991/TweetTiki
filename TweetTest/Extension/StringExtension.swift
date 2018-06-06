@@ -25,8 +25,10 @@ extension String {
     func validateString() throws {
         if self.count > kNumber && !self.containsWhitespace {
             throw ValidateError.overCharacter("Span of nonwhite space character > 50")
-        } else if self.count <= kNumber {
+        } else if self.count <= kNumber && !self.isEmpty{
             throw ValidateError.oneLine
+        } else if self.isEmpty{
+            throw ValidateError.empty
         }
     }
 }

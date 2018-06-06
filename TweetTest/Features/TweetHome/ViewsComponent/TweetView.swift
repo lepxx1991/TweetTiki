@@ -15,20 +15,29 @@ protocol TweetViewDelegate: class {
 class TweetView: UIView {
     @IBOutlet weak var textView: UITextView!
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var btnExecute: UIButton!
     weak var delegate: TweetViewDelegate?
+    var shouldEnable: Bool = false
     
     var arrSubTweet = [String]() {
         didSet {
+            shouldEnable = false
             self.tableView.reloadData()
         }
     }
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        self.validateExecuteButton()
         self.textView.placeholder = "Type text here"
         textView.delegate = self
         tableView.tableFooterView = UIView()
+    }
+    
+    //MARK: Private method
+    
+    func validateExecuteButton(){
+        self.btnExecute.isHidden = !shouldEnable
     }
 }
 
@@ -48,12 +57,14 @@ extension TweetView: UITableViewDelegate, UITableViewDataSource {
 //MARK: - TextView Delegate
 extension TweetView: UITextViewDelegate {
     func textView(_ textView: UITextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        let newString = (textView.text as NSString).replacingCharacters(in: range, with: text)
         if (text == UIPasteboard.general.string) {
-            let newString = (textView.text as NSString).replacingCharacters(in: range, with: text)
             self.delegate?.didChangeString(newString)
-        } else {
-            
         }
+        
+        shouldEnable = newString.count != 0
+        
+        validateExecuteButton()
         return true
     }
     

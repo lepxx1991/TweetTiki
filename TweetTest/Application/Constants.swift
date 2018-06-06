@@ -14,4 +14,16 @@ let kNumber = 50
 enum ValidateError: Error {
     case overCharacter(String)
     case oneLine
+    case empty
 }
+
+private var tickTimestamp: Date = Date()
+func TICK() {
+    print("TICK.")
+    tickTimestamp = Date()
+}
+
+func TOCK() {
+    print("TOCK. Elapsed Time: \(Date().timeIntervalSince(tickTimestamp))")
+}
+

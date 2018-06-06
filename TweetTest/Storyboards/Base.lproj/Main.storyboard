@@ -107,6 +107,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <connections>
+                            <outlet property="btnExecute" destination="cst-TK-dLm" id="zoF-17-shX"/>
                             <outlet property="tableView" destination="eJE-39-XwR" id="kOw-Q7-mKN"/>
                             <outlet property="textView" destination="0Lc-E8-qdZ" id="uUd-Ie-UcQ"/>
                         </connections>

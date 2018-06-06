@@ -14,21 +14,17 @@ class TweetVC: UIViewController {
     
     var arrSubTweet = [String]()
     
-    let string = "Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to"
-    
     var words = [String]()
     var originalWords = [String]()
 	
     override func viewDidLoad() {
         super.viewDidLoad()
         _view.delegate = self
-//        self._view.textView.text = string
-      
     }
     
     //MARK: Private method
     @IBAction fileprivate func makeAction(_ sender: UIButton) {
-        self._view.textView.endEditing(true)
+        activeExecuteSubTweet(self._view.textView.text)
     }
     
     fileprivate func activeExecuteSubTweet(_ text: String){
@@ -41,8 +37,10 @@ class TweetVC: UIViewController {
             AlertVC.alert(nil, message: message)
             return
         } catch ValidateError.oneLine {
-            self.arrSubTweet.removeAll()
             self.arrSubTweet.append(text)
+            self._view.arrSubTweet = self.arrSubTweet
+            return
+        } catch ValidateError.empty {
             self._view.arrSubTweet = self.arrSubTweet
             return
         } catch {
@@ -52,7 +50,7 @@ class TweetVC: UIViewController {
         
         originalWords = text.components(separatedBy: " ")
         words = originalWords
-        executeSubTweet(withPage: 1, asumeTotal: 1)
+        executeSubTweet(withPage: 1, asumeTotal: 9)
     }
     
     //MARK: Helper
@@ -61,7 +59,7 @@ class TweetVC: UIViewController {
         if withPage > asumeTotal {
             words = originalWords
             arrSubTweet.removeAll()
-            executeSubTweet(withPage: 1, asumeTotal: asumeTotal * 10)
+            executeSubTweet(withPage: 1, asumeTotal: asumeTotal * 11)
             return
         }
         var collectedWords = [String]()
@@ -90,7 +88,6 @@ class TweetVC: UIViewController {
         }
         
         if !collectedWords.isEmpty {
-            print(collectedWords)
             let string = collectedWords.map { String($0) }.joined(separator: " ")
             arrSubTweet.append(string)
             if words.count > 0 {
