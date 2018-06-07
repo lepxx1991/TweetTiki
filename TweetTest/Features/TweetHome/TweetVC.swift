@@ -20,10 +20,27 @@ class TweetVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         _view.delegate = self
+        setupNavigationBar()
+        self.hideKeyboardWhenTappedAround()
+    }
+    
+    //MARK: Setup Viewscomponent
+    
+    fileprivate func setupNavigationBar(){
+        self.title = "Tweet"
+        let rightItem = UIBarButtonItem(title: "Post", style: .plain, target: self, action: #selector(postAction))
+        self.navigationItem.rightBarButtonItem = rightItem
     }
     
     //MARK: Private method
+    @objc fileprivate func postAction(_ sender: UIBarButtonItem){
+        self.arrSubTweet.removeAll()
+        self._view.removeAllSubTweet()
+        AlertVC.alert(nil, message: "Posted")
+    }
+    
     @IBAction fileprivate func makeAction(_ sender: UIButton) {
+        self._view.endEditing(true)
         activeExecuteSubTweet(self._view.textView.text)
     }
     
@@ -73,9 +90,20 @@ class TweetVC: UIViewController {
         var deleteWord = [Int]()
         for i in 0..<words.count {
             let word = words[i]
+            if word.count > kNumber {
+                AlertVC.alert(nil, message: ElertMessage.over50Chars)
+                arrSubTweet.removeAll()
+                self._view.removeAllSubTweet()
+                return
+            }
             count += word.count + 1 // whitespace
             if (count > kNumber) {
-                deleteWord.append(i)
+                if firstString.count + word.count + 1 > kNumber{
+                    AlertVC.alert(nil, message: ElertMessage.over50Chars)
+                    arrSubTweet.removeAll()
+                    self._view.removeAllSubTweet()
+                    return
+                }
                 break
             } else {
                 deleteWord.append(i)
@@ -110,6 +138,6 @@ class TweetVC: UIViewController {
 //MARK: - TweetViewDelegate
 extension TweetVC: TweetViewDelegate {
     func didChangeString(_ text: String) {
-        activeExecuteSubTweet(text)
+//        activeExecuteSubTweet(text)
     }
 }

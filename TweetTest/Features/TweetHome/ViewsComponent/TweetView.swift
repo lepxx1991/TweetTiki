@@ -39,6 +39,13 @@ class TweetView: UIView {
     func validateExecuteButton(){
         self.btnExecute.isHidden = !shouldEnable
     }
+    
+    //MARK: Public method
+    
+    func removeAllSubTweet(){
+        self.arrSubTweet.removeAll()
+        self.tableView.reloadData()
+    }
 }
 
 //MARK: - TableView DataSource & Delegate

@@ -26,28 +26,58 @@ class TweetTestTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
+        list.removeAll()
+        originalWords.removeAll()
+        words.removeAll()
     }
     
     func testExample() {
+//        case1()
+//        case2()
+//        case3()
+        case4()
+    }
+    
+    func case1(){
+        string = "123 123123123123123123123123123123123123123123123123"
+        activeExecute()
+        
+    }
+    
+    func case2(){
+        string = "111111111111111 22222222222222222 3333333333333333 444444444444444"
+        activeExecute()
+    }
+    
+    func case3(){
+        string = "111111111111111 22222222222222222 3333333333333333 4444444444444444444444444444444444444444444444444444444444444444444444"
+        activeExecute()
+    }
+    
+    func case4(){
         string.removeAll()
         for _ in 0..<70 {
-            string.append("Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to show the dialog at a more appropriate time move this registration accordingly. Register for remote notifications. This shows a permission dialog on first run to ")
+            string.append("Last year, there were around 130,000 Vietnamese studying abroad at all levels, and their top five destinations were Japan, the U.S., Australia, China and the U.K., according to government data. In a report released last June, HSBC said Vietnamese parents place great importance on their child’s education, with spending on education accounting for 47 percent of the total household expenditure. ")
         }
-        
+        activeExecute()
+       
+    }
+    
+    func activeExecute(){
         if string.count > kNumber && !string.containsWhitespace {
             //Ignore case
             return
         }
         originalWords = string.components(separatedBy: " ")
         words = originalWords
-        executeSubTweet(withPage: 1, asumeTotal: 1)
+        executeSubTweet(withPage: 1, asumeTotal: 9)
     }
     
     func executeSubTweet(withPage: Int = 1, asumeTotal: Int) {
         if withPage > asumeTotal {
             words = originalWords
             list.removeAll()
-            executeSubTweet(withPage: 1, asumeTotal: asumeTotal * 10)
+            executeSubTweet(withPage: 1, asumeTotal: asumeTotal * 11)
             return
         }
         var collectedWords = [String]()
@@ -61,14 +91,22 @@ class TweetTestTests: XCTestCase {
         var deleteWord = [Int]()
         for i in 0..<words.count {
             let word = words[i]
+            if word.count > kNumber {
+                AlertVC.alert(nil, message: ElertMessage.over50Chars)
+                list.removeAll()
+                return
+            }
             count += word.count + 1 // whitespace
             if (count > kNumber) {
-                deleteWord.append(i)
+                if firstString.count + word.count + 1 > kNumber{
+                    AlertVC.alert(nil, message: ElertMessage.over50Chars)
+                    list.removeAll()
+                    return
+                }
                 break
             } else {
                 deleteWord.append(i)
                 collectedWords.append(word)
-                
             }
         }
         deleteWord.reverse()
@@ -78,6 +116,7 @@ class TweetTestTests: XCTestCase {
         
         if !collectedWords.isEmpty {
             let string = collectedWords.map { String($0) }.joined(separator: " ")
+            XCTAssertTrue(string.count <= kNumber, "Text length > 50 chars")
             list.append(string)
             if words.count > 0 {
                 executeSubTweet(withPage: withPage + 1, asumeTotal: asumeTotal)

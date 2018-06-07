@@ -27,3 +27,7 @@ func TOCK() {
     print("TOCK. Elapsed Time: \(Date().timeIntervalSince(tickTimestamp))")
 }
 
+struct ElertMessage {
+    static let over50Chars = "Span of nonwhite space character > 50"
+}
+
