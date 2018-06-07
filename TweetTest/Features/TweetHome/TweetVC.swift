@@ -76,7 +76,8 @@ class TweetVC: UIViewController {
         if withPage > asumeTotal {
             words = originalWords
             arrSubTweet.removeAll()
-            executeSubTweet(withPage: 1, asumeTotal: asumeTotal * 11)
+            let asumeTotalInt = Int("\(asumeTotal)9") ?? 9
+            executeSubTweet(withPage: 1, asumeTotal: asumeTotalInt)
             return
         }
         var collectedWords = [String]()
